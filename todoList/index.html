@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo</title>
+	<script src='./vue.js'></script>
+</head>
+<body>
+	<div id="app">
+		<ul>
+		<input type="text" v-model="inputValue" />
+		<button v-on:click="handleBtnClick">submit</button>
+			<!-- <li v-for="item in list">{{item}}</li> -->
+			<todo-item 
+				v-bind:content="item" 
+				v-bind:index="index"
+				v-for="(item,index) in list"
+				@delete="handleItemClick"
+			>
+			</todo-item>
+		</ul>
+	</div>
+	
+	<script>
+		var TodoItem = {
+			props: ['content'],
+			template: "<li @click='handleLiClick'>{{content}}</li>",
+			methods: {
+				handleLiClick: function (index) {
+					this.$emit('delete', index)
+				}
+			}
+		}
+
+		var app = new Vue({
+			el: '#app',
+			components: {
+				TodoItem
+			},
+			data: {
+				list: [],
+				inputValue: ''
+			},
+			methods: {
+				handleBtnClick:function () {
+					this.list.push(this.inputValue)
+					this.inputValue = ''
+				},
+				handleItemClick: function (index) {
+					this.list.splice(index,1)
+				}
+			}
+		})
+	</script>
+</body>
+</html>
