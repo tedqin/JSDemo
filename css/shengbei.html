@@ -1,0 +1,53 @@
+<!-- 圣杯布局 三列 中间自适应且优先渲染 两边不变 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-width: 700px
+    }
+    .container {
+      padding: 0 200px 0 200px;
+    }
+
+    .left,
+    .middle,
+    .right {
+      position: relative;
+      float: left;
+      min-height: 300px;
+    }
+
+    .middle { 
+      width: 100%;
+      background: red;
+    }
+    .left {
+      width: 200px;
+      background: green;
+      margin-left: -100%;
+      left: -200px;
+    }
+    .right {
+      width: 200px;
+      background: black;
+      margin-left: -200px;
+      right: -200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="middle">middle</div>
+    <div class="left">left</div>
+    <div class="right">right</div>
+  </div>
+  
+</body>
+</html>
