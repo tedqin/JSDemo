@@ -2,10 +2,8 @@
 var Event = {
     // 通过on接口监听事件eventName
     // 如果事件eventName被触发，则执行callback回调函数
-    on: function(eventName, callback) {
-        if (!this.handles) {
-            this.handles = {};
-        }
+    handles: {},
+    add: function(eventName, callback) {
         if (!this.handles[eventName]) {
             this.handles[eventName] = [];
         }
@@ -13,19 +11,28 @@ var Event = {
     },
     // 触发事件 eventName
     emit: function(eventName) {
-        if (this.handles[arguments[0]]) {
-            for (var i = 0; i < this.handles[arguments[0]].length; i++) {
-                //执行事件
-                this.handles[arguments[0]][i](arguments[1]);
-            }
+        let target = this.handles[eventName]
+        for (let i = 0; i < target.length; i++) {
+            target[i]()
         }
+    },
+    //删除事件
+    remove: function(eventName, callbacks) {
+        let target = this.handles[eventName]
+        let id = target.indexOf(callbacks)
+        target.splice(id, 1)
     }
 }
 
-Event.on('test', function (result) {
-   console.log(result);
+Event.add('test', function () {
+   console.log("t1");
 })
-Event.on('test', function () {
-   console.log('test');
+Event.add('test', function () {
+   console.log('t2');
 })
-Event.emit('test', 'hello world')// 输出 'hello world' 和 'test'
+Event.emit('test')// 输出 't1' 和 't2'
+
+Event.remove('test', function () {
+   console.log("t2")
+})
+Event.emit('test')// 输出 't1'

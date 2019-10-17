@@ -1,0 +1,48 @@
+<!-- 非父子组件传值 -->
+<!-- 通过观察者模式实现，两个子组件之间传值，点击其中一个组件，另一个组件的值变成这个被点击组件的值-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <child :content="content1"></child>
+    <child :content="content2"></child>
+  </div>
+  <script>
+    //1. 在Vue的prototype上定义一个bus
+    Vue.prototype.bus = new Vue()
+
+    Vue.component('child', {
+      props: {
+        content: String
+      },
+      template: '<div v-on:click="handleClick">{{content}}</div>',
+      methods: {
+        handleClick: function() {
+          //使用bus向外触发事件
+          this.bus.$emit('change', this.content)
+        }
+      },
+      //利用钩子函数，监听change事件
+      mounted: function() {
+        var this_ = this
+        this.bus.$on('change', function(msg) {
+          this_.content = msg
+        })
+      }
+    })
+
+    var vm = new Vue({
+      el: "#root",
+      data: {
+        content1: "tedqin",
+        content2: "teddymoon"
+      }
+    })
+  </script>
+</body>
+</html>

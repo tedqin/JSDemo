@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <child>
+      <p>tedqin</p>
+    </child>
+  </div>
+  <script>
+    Vue.component('child', {
+      template: `<div>hello
+                  <slot></slot>
+                  </div>
+                  `
+    })
+
+    var vm = new Vue({
+      el: "#app"
+    })
+  </script>
+  
+</body>
+</html>
